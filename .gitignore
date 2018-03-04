@@ -2,3 +2,5 @@
 node_modules
 *.swp
 .serverless
+env/dev.yml
+env/prod.yml
