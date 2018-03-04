@@ -11,31 +11,27 @@ module.exports.handler = (event, context, callback) => {
   let token = event.queryStringParameters['hub.verify_token'];
   let challenge = event.queryStringParameters['hub.challenge'];
 
-  if (mode && token) {
+  // Verify request
+  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
 
-    // Verify request
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) { 
+    console.log('Webhook verified');
 
-      console.log('Webhook verified');
+    callback(
+      null,
+      {
+        statusCode: 200,
+        body: challenge,
+      }
+    );
 
-      callback(
-        null,
-        {
-          statusCode: 200,
-          body: challenge,
-        }
-      );
+  } else {
 
-    } else {
-
-      callback(
-        null,
-        {
-          statusCode: 403,
-        }
-      );
-
-    }
+    callback(
+      null,
+      {
+        statusCode: 403,
+      }
+    );
 
   }
 

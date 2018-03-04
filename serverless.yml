@@ -30,3 +30,4 @@ functions:
 package:
   exclude:
     - README.md
+    - env/**
