@@ -13,7 +13,6 @@ provider:
   environment: ${file(env/${self:custom.stage}.yml)}
 
 functions:
-
   webhook-get:
     handler: handler/webhook-get.handler
     events:
@@ -26,5 +25,4 @@ functions:
     events:
       - http:
           path: /webhook
-          method: get
-
+          method: post
