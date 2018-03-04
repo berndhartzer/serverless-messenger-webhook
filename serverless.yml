@@ -1,0 +1,30 @@
+service: messenger-webhook
+
+frameworkVersion: ">=1.9.0 <2.0.0"
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  profile: ${file(env/${self:custom.stage}.yml):PROFILE}
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  profile: ${self:custom.profile}
+  environment: ${file(env/${self:custom.stage}.yml)}
+
+functions:
+
+  webhook-get:
+    handler: handler/webhook-get.handler
+    events:
+      - http:
+          path: /webhook
+          method: get
+
+  webhook-post:
+    handler: handler/webhook-post.handler
+    events:
+      - http:
+          path: /webhook
+          method: get
+
