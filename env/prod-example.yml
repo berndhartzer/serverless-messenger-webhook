@@ -1,2 +1,2 @@
 PROFILE: prod-profile
-VERIFY_TOKEN: verify-token
+VERIFY_TOKEN: prod-verify-token

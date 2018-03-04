@@ -4,32 +4,38 @@ module.exports.handler = (event, context, callback) => {
 
   console.log(JSON.stringify(event));
 
+  const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
+  // Get the params from the webhook request
   let mode = event.queryStringParameters['hub.mode'];
   let token = event.queryStringParameters['hub.verify_token'];
   let challenge = event.queryStringParameters['hub.challenge'];
 
-  console.log(mode);
-  console.log(token);
-  console.log(challenge);
+  if (mode && token) {
 
-  if (mode && token && token === notSoSecretToken) {
+    // Verify request
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) { 
 
-    callback(
-      null,
-      {
-        statusCode: 200,
-        body: challenge,
-      }
-    );
+      console.log('Webhook verified');
 
-  } else {
+      callback(
+        null,
+        {
+          statusCode: 200,
+          body: challenge,
+        }
+      );
 
-    callback(
-      null,
-      {
-        statusCode: 403,
-      }
-    );
+    } else {
+
+      callback(
+        null,
+        {
+          statusCode: 403,
+        }
+      );
+
+    }
 
   }
 
