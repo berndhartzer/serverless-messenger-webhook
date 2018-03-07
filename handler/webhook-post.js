@@ -16,6 +16,7 @@ module.exports.handler = (event, context, callback) => {
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
 
+
     });
 
     callback(
@@ -37,5 +38,26 @@ module.exports.handler = (event, context, callback) => {
     );
 
   }
+
+}
+
+/**
+ * Handles messages events
+ */
+function handleMessage(sender_psid, received_message) {
+
+}
+
+/**
+ * Handles messaging_postbacks events
+ */
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+/**
+ * Sends response messages via the Send API
+ */
+function callSendAPI(sender_psid, response) {
 
 }
