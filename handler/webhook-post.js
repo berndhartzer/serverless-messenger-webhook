@@ -20,6 +20,14 @@ module.exports.handler = (event, context, callback) => {
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
 
+      // Check message type and handler accordingly
+      if (webhook_event.message) {
+        handleMessage(sender_psid, webhook_event.message);
+      } else if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback);
+      }
+
+
     });
 
     callback(
