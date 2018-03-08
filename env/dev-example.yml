@@ -1,2 +1,3 @@
 PROFILE: dev-profile
 VERIFY_TOKEN: dev-verify-token
+PAGE_ACCESS_TOKEN: dev-page-access-token
