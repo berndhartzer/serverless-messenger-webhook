@@ -1,5 +1,7 @@
 'use strict';
 
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
 module.exports.handler = (event, context, callback) => {
 
   console.log(JSON.stringify(event));
@@ -83,4 +85,11 @@ function handlePostback(sender_psid, received_postback) {
  */
 function callSendAPI(sender_psid, response) {
 
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
 }
