@@ -17,18 +17,18 @@ module.exports.handler = (event, context, callback) => {
 
       // Get the webhook event. entry.messaging is an array, but 
       // will only ever contain one event, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      let webhookEvent = entry.messaging[0];
+      console.log(webhookEvent);
 
       // Get the sender PSID
-      let sender_psid = webhook_event.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
+      let senderPsid = webhookEvent.sender.id;
+      console.log('Sender PSID: ' + senderPsid);
 
       // Check message type and handler accordingly
-      if (webhook_event.message) {
-        handleMessage(sender_psid, webhook_event.message);
-      } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+      if (webhookEvent.message) {
+        handleMessage(senderPsid, webhookEvent.message);
+      } else if (webhookEvent.postback) {
+        handlePostback(senderPsid, webhookEvent.postback);
       }
 
     });
@@ -58,38 +58,38 @@ module.exports.handler = (event, context, callback) => {
 /**
  * Handles messages events
  */
-function handleMessage(sender_psid, received_message) {
+function handleMessage(senderPsid, receivedMessage) {
 
   let response;
 
   // Check if the message contains text
-  if (received_message.text) {
+  if (receivedMessage.text) {
 
     // Create the payload for a basic text message
     response = {
-      'text': `You sent the message: '${received_message.text}'. Now send me an image!`
+      'text': `You sent the message: '${receivedMessage.text}'. Now send me an image!`
     }
   }
 
-  callSendAPI(sender_psid, response);
+  callSendAPI(senderPsid, response);
 }
 
 /**
  * Handles messaging_postbacks events
  */
-function handlePostback(sender_psid, received_postback) {
+function handlePostback(senderPsid, receivedPostback) {
 
 }
 
 /**
  * Sends response messages via the Send API
  */
-function callSendAPI(sender_psid, response) {
+function callSendAPI(senderPsid, response) {
 
   // Construct the message body
-  let request_body = {
+  let body = {
     recipient: {
-      id: sender_psid
+      id: senderPsid
     },
     message: response
   };
@@ -100,7 +100,7 @@ function callSendAPI(sender_psid, response) {
       'access_token': PAGE_ACCESS_TOKEN
     },
     method: 'POST',
-    json: request_body
+    json: body
   };
 
   rp(options)
