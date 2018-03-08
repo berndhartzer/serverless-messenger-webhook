@@ -1,5 +1,7 @@
 'use strict';
 
+const rp = require('request-promise');
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 module.exports.handler = (event, context, callback) => {
@@ -91,5 +93,23 @@ function callSendAPI(sender_psid, response) {
       "id": sender_psid
     },
     "message": response
-  }
+  };
+
+  let options = {
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  };
+
+  rp(options)
+    .then(res => {
+      console.log('Message sent');
+
+    })
+    .catch(err => {
+      console.error(`Unable to send message: ${err}`);
+
+    });
+
 }
