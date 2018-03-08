@@ -1,10 +1,10 @@
 'use strict';
 
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+
 module.exports.handler = (event, context, callback) => {
 
   console.log(JSON.stringify(event));
-
-  const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
   // Get the params from the webhook request
   let mode = event.queryStringParameters['hub.mode'];
