@@ -1,0 +1,23 @@
+{
+  "name": "serverless-messenger-webhook",
+  "version": "1.0.0",
+  "description": "This project is a Serverless version of the Facebook Messenger Webhook starter project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berndhartzer/serverless-messenger-webhook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/berndhartzer/serverless-messenger-webhook/issues"
+  },
+  "homepage": "https://github.com/berndhartzer/serverless-messenger-webhook#readme",
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  }
+}
