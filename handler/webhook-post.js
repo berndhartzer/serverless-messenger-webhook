@@ -22,7 +22,7 @@ module.exports.handler = (event, context, callback) => {
 
       // Get the sender PSID
       let senderPsid = webhookEvent.sender.id;
-      console.log('Sender PSID: ' + senderPsid);
+      console.log(`Sender PSID: ${senderPsid}`);
 
       // Check message type and handler accordingly
       if (webhookEvent.message) {
@@ -67,7 +67,7 @@ function handleMessage(senderPsid, receivedMessage) {
 
     // Create the payload for a basic text message
     response = {
-      'text': `You sent the message: '${receivedMessage.text}'. Now send me an image!`
+      text: `You sent the message: '${receivedMessage.text}'. Now send me an image!`
     }
   }
 
