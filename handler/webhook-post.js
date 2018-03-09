@@ -12,8 +12,14 @@ module.exports.handler = (event, context, callback) => {
 
   if (body.object === 'page') {
 
+    console.log('Event received');
+
+    let requests = [];
+
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(entry => {
+
+      let requestDetails;
 
       // Get the webhook event. entry.messaging is an array, but 
       // will only ever contain one event, so we get index 0
@@ -26,20 +32,35 @@ module.exports.handler = (event, context, callback) => {
 
       // Check message type and handler accordingly
       if (webhookEvent.message) {
-        handleMessage(senderPsid, webhookEvent.message);
+        requestDetails = handleMessage(senderPsid, webhookEvent.message);
       } else if (webhookEvent.postback) {
-        handlePostback(senderPsid, webhookEvent.postback);
+        // handlePostback(senderPsid, webhookEvent.postback);
       }
+
+      requests.push(callSendAPI(senderPsid, requestDetails));
 
     });
 
-    callback(
-      null,
-      {
-        statusCode: 200,
-        body: 'EVENT_RECEIVED',
-      }
-    );
+    console.log(`Number of requests: ${requests.length}`);
+
+    Promise.all(requests)
+      .then(res => {
+
+        console.log(res);
+
+        callback(
+          null,
+          {
+            statusCode: 200,
+            body: 'ok',
+          }
+        );
+
+      })
+      .catch(err => {
+        console.error(`Error: ${err}`);
+      })
+
 
   } else {
 
@@ -71,7 +92,8 @@ function handleMessage(senderPsid, receivedMessage) {
     }
   }
 
-  callSendAPI(senderPsid, response);
+  // callSendAPI(senderPsid, response);
+  return response;
 }
 
 /**
@@ -103,14 +125,16 @@ function callSendAPI(senderPsid, response) {
     json: body
   };
 
-  rp(options)
+  return rp(options);
+  /*
     .then(res => {
       console.log('Message sent');
-
+      return res;
     })
     .catch(err => {
       console.error(`Unable to send message: ${err}`);
-
+      throw err;
     });
+    */
 
 }
