@@ -14,10 +14,8 @@ module.exports.handler = (event, context, callback) => {
 
     console.log('Event received');
 
-    let requests = [];
-
     // Iterate over each entry - there may be multiple if batched
-    body.entry.forEach(entry => {
+    let requests = body.entry.map(entry => {
 
       let requestDetails;
 
@@ -37,7 +35,8 @@ module.exports.handler = (event, context, callback) => {
         // handlePostback(senderPsid, webhookEvent.postback);
       }
 
-      requests.push(callSendAPI(senderPsid, requestDetails));
+      // requests.push(callSendAPI(senderPsid, requestDetails));
+      return callSendAPI(senderPsid, requestDetails);
 
     });
 
@@ -46,6 +45,7 @@ module.exports.handler = (event, context, callback) => {
     Promise.all(requests)
       .then(res => {
 
+        console.log('Resolved all request promises');
         console.log(res);
 
         callback(
@@ -59,8 +59,15 @@ module.exports.handler = (event, context, callback) => {
       })
       .catch(err => {
         console.error(`Error: ${err}`);
-      })
 
+        callback(
+          null,
+          {
+            statusCode: 500,
+          }
+        );
+
+      });
 
   } else {
 
