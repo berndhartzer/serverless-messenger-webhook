@@ -14,7 +14,7 @@ module.exports.handler = (event, context, callback) => {
 
     console.log('Event received');
 
-    // Iterate over each entry - there may be multiple if batched
+    // Create array of requests to make by iterating over each entry
     let requests = body.entry.map(entry => {
 
       let requestDetails;
@@ -35,9 +35,7 @@ module.exports.handler = (event, context, callback) => {
         // handlePostback(senderPsid, webhookEvent.postback);
       }
 
-      // requests.push(callSendAPI(senderPsid, requestDetails));
       return callSendAPI(senderPsid, requestDetails);
-
     });
 
     console.log(`Number of requests: ${requests.length}`);
@@ -99,7 +97,6 @@ function handleMessage(senderPsid, receivedMessage) {
     }
   }
 
-  // callSendAPI(senderPsid, response);
   return response;
 }
 
@@ -133,15 +130,4 @@ function callSendAPI(senderPsid, response) {
   };
 
   return rp(options);
-  /*
-    .then(res => {
-      console.log('Message sent');
-      return res;
-    })
-    .catch(err => {
-      console.error(`Unable to send message: ${err}`);
-      throw err;
-    });
-    */
-
 }
