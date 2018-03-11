@@ -32,7 +32,7 @@ module.exports.handler = (event, context, callback) => {
       if (webhookEvent.message) {
         requestDetails = handleMessage(senderPsid, webhookEvent.message);
       } else if (webhookEvent.postback) {
-        // handlePostback(senderPsid, webhookEvent.postback);
+        requestDetails = handlePostback(senderPsid, webhookEvent.postback);
       }
 
       return callSendAPI(senderPsid, requestDetails);
@@ -137,6 +137,25 @@ function handleMessage(senderPsid, receivedMessage) {
  */
 function handlePostback(senderPsid, receivedPostback) {
 
+  let response;
+
+  let payload = receivedPostback.payload;
+
+  if (payload === 'yes') {
+
+    response = {
+      text: 'Thanks!'
+    };
+
+  } else if (payload === 'no') {
+
+    response = {
+      text: 'Oops, try sending another image.'
+    };
+
+  }
+
+  return response;
 }
 
 /**
