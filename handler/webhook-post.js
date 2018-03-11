@@ -93,8 +93,13 @@ function handleMessage(senderPsid, receivedMessage) {
 
     // Create the payload for a basic text message
     response = {
-      text: `You sent the message: '${receivedMessage.text}'. Now send me an image!`
+      text: `You sent the message: '${receivedMessage.text}'. Now send me an attachment!`
     }
+  } else if (receivedMessage.attachments) {
+
+    // Gets the URL of the message attachment
+    let attachmentUrl = receivedMessage.attachments[0].payload.url;
+
   }
 
   return response;
